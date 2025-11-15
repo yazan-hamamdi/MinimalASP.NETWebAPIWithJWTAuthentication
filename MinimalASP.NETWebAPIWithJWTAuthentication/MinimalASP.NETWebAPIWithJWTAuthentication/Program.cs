@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MinimalASP.NETWebAPIWithJWTAuthentication.DTOs;
 using MinimalASP.NETWebAPIWithJWTAuthentication.Services;
 using System.Security.Claims;
 using System.Text;
@@ -50,11 +51,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapPost("/login", (string username, string password, JwtTokenGenerator jwt) =>
+app.MapPost("/login", (LoginRequest request, JwtTokenGenerator jwt) =>
 {
-    if (username == "admin" && password == "123")
+    if (request.Username == "admin" && request.Password == "123")
     {
-        var token = jwt.GenerateToken(username);
+        var token = jwt.GenerateToken(request.Username);
         return Results.Ok(new { Token = token });
     }
 
